@@ -49,18 +49,17 @@ The full life of a board, a list and a card:
 ### RESTful API: 14 of 14 passed
 Average response time 365 ms.
 
-![RESTful API run, part 1](restful-run-results-1.png)
-![RESTful API run, part 2](restful-run-results-2.png)
+![RESTful API run, part 1](restful-api-results/restful-run-results%281%29.png)
+![RESTful API run, part 2](restful-api-results/restful-run-results%282%29.png)
 
 ### Trello API: 40 of 43 passed
 Average response time 436 ms. Key and token are hidden in the screenshots.
 
-![Trello API run, part 1](trello-run-results.png)
-![Trello API run, part 2](trello-run-results-2.png)
-![Trello API run, part 3](trello-run-results-3.png)
-![Trello API run, part 4](trello-run-results-4.png)
-![Trello API run, part 5](trello-run-results-5.png)
-
+![Trello API run, part 1](trello-api-results/trello-run-results-1.png)
+![Trello API run, part 2](trello-api-results/trello-run-results-2.png)
+![Trello API run, part 3](trello-api-results/trello-run-results-3.png)
+![Trello API run, part 4](trello-api-results/trello-run-results-4.png)
+![Trello API run, part 5](trello-api-results/trello-run-results-5.png)
 ### Known issue: 3 failed tests
 The 3 failures are in **Get deleted card**, **Get deleted list** and **Get deleted board**. Each one runs after the
 item has been deleted, and Trello correctly answers **404 Not Found**. They fail because the collection-level
