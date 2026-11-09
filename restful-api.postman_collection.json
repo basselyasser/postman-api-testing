@@ -1,0 +1,286 @@
+{
+  "info": {
+    "_postman_id": "537a60fd-ad0b-4f10-bd2f-bb2b6cfaeb17",
+    "name": "first project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "60026626",
+    "_collection_link": "https://go.postman.co/collection/60026626-537a60fd-ad0b-4f10-bd2f-bb2b6cfaeb17?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get all collections",
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": [
+            {
+              "key": "value",
+              "value": "YOUR_RESTFUL_API_KEY",
+              "type": "string"
+            },
+            {
+              "key": "key",
+              "value": "x-api-key",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.restful-api.dev/collections",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get objects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.restful-api.dev/collections/C1/objects",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections",
+            "C1",
+            "objects"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create new object",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let jsonData = pm.response.json();\r\npm.collectionVariables.set(\"object id\", jsonData.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n        \"id\": \"0\",\r\n        \"name\": \"samsung A15\",\r\n        \"data\": {\r\n            \"color\": \"black\",\r\n            \"capacity\": \"256 GB\"\r\n        }\r\n        }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.restful-api.dev/collections/C1/objects",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections",
+            "C1",
+            "objects"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update object",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n        \"id\": \"10\",\r\n        \"name\": \"samsung galaxy A15\",\r\n        \"data\": {\r\n            \"color\": \"blue\",\r\n            \"capacity\": \"256 GB\"\r\n        }\r\n        }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.restful-api.dev/collections/C1/objects/{{object id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections",
+            "C1",
+            "objects",
+            "{{object id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "partially update",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n      \r\n        \"data\": {\r\n            \r\n            \"capacity\": \"1 TB\"\r\n        }\r\n        }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.restful-api.dev/collections/C1/objects/{{object id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections",
+            "C1",
+            "objects",
+            "{{object id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get single object",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.restful-api.dev/collections/C1/objects/{{object id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections",
+            "C1",
+            "objects",
+            "{{object id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete object",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n      \r\n        \"data\": {\r\n            \r\n            \"capacity\": \"1 TB\"\r\n        }\r\n        }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.restful-api.dev/collections/C1/objects/{{object id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "collections",
+            "C1",
+            "objects",
+            "{{object id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "YOUR_RESTFUL_API_KEY",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "pm.test(\"Response returns within 1 sec\", function () {\r",
+          "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+          "});\r",
+          "pm.test(\"Status code is 200\", function () {\r",
+          "    pm.response.to.have.status(200);\r",
+          "});"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "object id",
+      "value": ""
+    }
+  ]
+}
