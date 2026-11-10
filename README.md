@@ -6,7 +6,7 @@ API test collections for two public REST APIs, built in Postman as the final pro
 | Collection | API | Requests | Tests | Result |
 |---|---|---|---|---|
 | RESTful API | [api.restful-api.dev](https://restful-api.dev) | 7 | 14 | 14 passed |
-| Trello API | [api.trello.com](https://developer.atlassian.com/cloud/trello/rest/) | 19 | 43 | 40 passed, 3 failed ([see below](#known-issue-3-failed-tests)) |
+| Trello API | [api.trello.com](https://developer.atlassian.com/cloud/trello/rest/) | 19 | 43 | 43 passed |
 
 ## What is tested
 
@@ -38,9 +38,9 @@ The full life of a board, a list and a card:
 
 - **Request chaining:** the `POST` requests save the new item's `id` into a variable (`BoardId`, `ListId`, `CardId`, `object id`), and the requests after them use it.
 - **Dynamic test data:** pre-request scripts give each board, list and card a random name (for example `MyBoard 167`), so every run creates fresh data.
-- **Assertions on every request:** a collection-level script checks the status code and that the response arrives in under 1 second.
+- **Assertions on every request:** a collection-level script checks the status code (200, or 404 for deleted items) and that the response arrives in under 1 second.
 - **Response-body checks:** *Create board* checks that the response has an `id`, `name` and `url`, and that the returned name matches the name sent.
-- **Negative check:** *Get deleted board* checks that a deleted board returns **404 Not Found**.
+- **Negative checks:** after each delete, the *Get deleted* requests check that the board, list and card now return **404 Not Found**.
 - **Environment variables:** the base URL, key and token are stored in an environment, not typed into the requests.
 - **Pre-request API call:** *Delete list* closes the list first with `pm.sendRequest`, because Trello requires a list to be archived before it is deleted.
 
@@ -52,21 +52,25 @@ Average response time 365 ms.
 ![RESTful API run, part 1](restful-api-results/restful-run-results%281%29.png)
 ![RESTful API run, part 2](restful-api-results/restful-run-results%282%29.png)
 
-### Trello API: 40 of 43 passed
-Average response time 436 ms. Key and token are hidden in the screenshots.
+### Trello API: 43 of 43 passed
+Average response time 380 ms. Key and token are hidden in the screenshots.
 
 ![Trello API run, part 1](trello-api-results/trello-run-results-1.png)
 ![Trello API run, part 2](trello-api-results/trello-run-results-2.png)
 ![Trello API run, part 3](trello-api-results/trello-run-results-3.png)
 ![Trello API run, part 4](trello-api-results/trello-run-results-4.png)
 ![Trello API run, part 5](trello-api-results/trello-run-results-5.png)
-### Known issue: 3 failed tests
-The 3 failures are in **Get deleted card**, **Get deleted list** and **Get deleted board**. Each one runs after the
-item has been deleted, and Trello correctly answers **404 Not Found**. They fail because the collection-level
-"Status code is 200" test also runs on these requests.
 
-So the API behaves correctly, and the fault is in the test. The planned fix is to make the collection-level script
-expect 404 for the "Get deleted" requests and 200 for all others.
+### Fixed: 3 failures in the first run
+The first run passed 40 of 43 tests. The 3 failures were in **Get deleted card**, **Get deleted list** and
+**Get deleted board**. Each runs after the item is deleted, and Trello correctly answered **404 Not Found**,
+but the collection-level test expected 200 on every request.
+
+So the API was right and the test was wrong. The collection-level script now expects 404 for the
+"Get deleted" requests and 200 for all others. The re-run passed all 43 tests.
+
+The same review also found a typo in the test data: the list name was sent as `{{MyList}}}`, with one
+extra bracket, so Trello saved names like `MyList 50}`. It is now `{{MyList}}`.
 
 ## How to run
 

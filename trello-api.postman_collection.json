@@ -224,7 +224,7 @@
         "method": "POST",
         "header": [],
         "url": {
-          "raw": "{{base-url}}/1/lists?name={{MyList}}}&idBoard={{BoardId}}&key={{key}}&token={{token}}",
+          "raw": "{{base-url}}/1/lists?name={{MyList}}&idBoard={{BoardId}}&key={{key}}&token={{token}}",
           "host": [
             "{{base-url}}"
           ],
@@ -235,7 +235,7 @@
           "query": [
             {
               "key": "name",
-              "value": "{{MyList}}}"
+              "value": "{{MyList}}"
             },
             {
               "key": "idBoard",
@@ -522,6 +522,17 @@
     },
     {
       "name": "Delete card",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -552,6 +563,17 @@
     },
     {
       "name": "Get deleted Card",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -626,6 +648,15 @@
               "// Close the list before deleting it (Trello requires lists to be closed/archived first)\nconst baseUrl = pm.environment.get(\"base-url\");\nconst listId = pm.environment.get(\"ListId\");\nconst key = pm.environment.get(\"key\");\nconst token = pm.environment.get(\"token\");\n\nconst closeListRequest = {\n    url: `${baseUrl}/1/lists/${listId}?closed=true&key=${key}&token=${token}`,\n    method: \"PUT\"\n};\n\npm.sendRequest(closeListRequest, function (err, response) {\n    if (err) {\n        console.error(\"Failed to close list:\", err);\n    } else if (response.code !== 200) {\n        console.warn(\"Close list responded with status:\", response.code, response.text());\n    } else {\n        console.log(\"List closed successfully. Proceeding with deletion...\");\n    }\n});"
             ]
           }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
         }
       ],
       "request": {
@@ -658,6 +689,17 @@
     },
     {
       "name": "Get deleted List",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -724,16 +766,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Board is successfuly deleted\", function () {\n    pm.response.to.have.status(404);\n});"
-            ]
-          }
-        },
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              ""
+              "pm.test(\"Board is successfully deleted\", function () {\n    pm.response.to.have.status(404);\n});"
             ]
           }
         }
@@ -772,9 +805,15 @@
       "listen": "test",
       "script": {
         "exec": [
-          "pm.test(\"Status code is 200\", function () {\r",
-          "    pm.response.to.have.status(200);\r",
-          "});\r",
+          "if (pm.info.requestName.startsWith(\"Get deleted\")) {\r",
+          "    pm.test(\"Status code is 404 (item deleted)\", function () {\r",
+          "        pm.response.to.have.status(404);\r",
+          "    });\r",
+          "} else {\r",
+          "    pm.test(\"Status code is 200\", function () {\r",
+          "        pm.response.to.have.status(200);\r",
+          "    });\r",
+          "}\r",
           "pm.test(\"Response time is less than 1 second\", function () {\r",
           "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
           "});"
